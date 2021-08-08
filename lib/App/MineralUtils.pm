@@ -39,10 +39,10 @@ _
     },
     examples => [
         {args=>{quantity=>'mg'}, summary=>'Show all possible conversions'},
-        {args=>{quantity=>'1000 mg', to_unit=>'IU'}, summary=>'Find out how many elemental magnesium is in 1000mg of magnesium l-threonate'},
+        {args=>{quantity=>'1000 mg-magnesium-l-threonate', to_unit=>'mg-magnesium-elemental'}, summary=>'Find out how many mg of elemental magnesium is in 1000mg of magnesium l-threonate'},
     ],
 };
-sub convert_vitamin_a_unit {
+sub convert_magnesium_unit {
     require Physics::Unit;
 
     Physics::Unit::InitUnit(
