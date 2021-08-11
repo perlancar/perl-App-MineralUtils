@@ -49,6 +49,7 @@ sub convert_magnesium_unit {
         ['mg-magnesium-elemental'], '1 mg',
         ['mg-magnesium-citrate'], '0.1123 mg-magnesium-elemental',
         ['mg-magnesium-glycinate'], '0.141 mg-magnesium-elemental',
+        ['mg-magnesium-bisglycinate'], '0.141 mg-magnesium-elemental',
         ['mg-magnesium-l-threonate'], '0.072 mg-magnesium-elemental',
         ['mg-magnesium-oxide'], '0.603 mg-magnesium-elemental',
     );
