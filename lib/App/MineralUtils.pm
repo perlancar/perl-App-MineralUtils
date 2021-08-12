@@ -11,17 +11,45 @@ use warnings;
 
 our %SPEC;
 
+my @magnesium_units = (
+    'mg',
+    'mg-magnesium-elemental',
+    'mg-magnesium-citrate',
+    'mg-magnesium-glycinate',
+    'mg-magnesium-bisglycinate',
+    'mg-magnesium-l-threonate',
+    'mg-magnesium-oxide',
+);
+
 # XXX share with App::VitaminUtils
-our %args_common = (
+our %argspecs_magnesium = (
     quantity => {
         # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
         schema => 'str*',
         req => 1,
         pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>\@magnesium_units},
+                ],
+            );
+        },
     },
     to_unit => {
         # schema => 'physical::unit', # IU hasn't been added
-        schema => 'str*',
+        schema => ['str*', in=>\@magnesium_units],
         pos => 1,
     },
 );
@@ -35,7 +63,7 @@ If target unit is not specified, will show all known conversions.
 
 _
     args => {
-        %args_common,
+        %argspecs_magnesium,
     },
     examples => [
         {args=>{quantity=>'mg'}, summary=>'Show all possible conversions'},
@@ -64,13 +92,7 @@ sub convert_magnesium_unit {
     } else {
         my @rows;
         for my $u (
-            'mg',
-            'mg-magnesium-elemental',
-            'mg-magnesium-citrate',
-            'mg-magnesium-glycinate',
-            'mg-magnesium-bisglycinate',
-            'mg-magnesium-l-threonate',
-            'mg-magnesium-oxide',
+            @magnesium_units,
         ) {
             push @rows, {
                 unit => $u,
