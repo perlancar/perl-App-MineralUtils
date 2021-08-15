@@ -1,3 +1,12 @@
+0.005   2021-08-15  Released-By: PERLANCAR; Urgency: medium
+
+	- [ux] Make quantity argument optional to make showing all possible
+	  conversions easier.
+
+	- [ux] When showing all possible conversions, forgot to show
+          now-available summary.
+
+
 0.004   2021-08-15  Released-By: PERLANCAR; Urgency: medium
 
 	- [incompatible change] Rename units to be more concise:
