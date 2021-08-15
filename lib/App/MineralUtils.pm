@@ -80,7 +80,8 @@ our %argspecs_magnesium = (
     quantity => {
         # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
         schema => 'str*',
-        req => 1,
+        default => '1 mg',
+        req => 0,
         pos => 0,
         completion => sub {
             require Complete::Sequence;
@@ -121,7 +122,7 @@ _
     },
     examples => [
         {
-            args=>{quantity=>'mg'},
+            args=>{},
             summary=>'Show all possible conversions',
         },
         {
