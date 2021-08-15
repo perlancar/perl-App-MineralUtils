@@ -12,11 +12,11 @@ use warnings;
 our %SPEC;
 
 my @magnesium_forms = (
-    {
-        name => 'mg',
-        magnesium_ratio => 1,
-        summary => 'Elemental magnesium, in milligrams',
-    },
+    #{
+    #    name => 'mg',
+    #    magnesium_ratio => 1,
+    #    summary => 'Elemental magnesium, in milligrams',
+    #},
     {
         name => 'mg-mg-elem',
         magnesium_ratio => 1,
@@ -30,24 +30,49 @@ my @magnesium_forms = (
     {
         name => 'mg-mg-citrate-ah',
         magnesium_ratio => 24.305/457.16*3, # 15.95%
-        purity => 1,
         summary => 'Magnesium citrate anhydrous (C6H5Mg3O7), in milligrams',
     },
     {
         name => 'mg-mg-citrate-ah-nowfoods',
         magnesium_ratio => 24.305/457.16*3, # 15.95%
-        purity => 0.9091, # 15.95% x 0.9091 =
-        summary=>'Magnesium citrate in NOW Foods supplement (anhydrous, C6H5Mg3O7, contains citric acid etc, purity 90.9%), in milligrams'},
+        purity => 0.9091, # 15.95% x 0.9091 = 14.5%
+        summary=>'Magnesium citrate in NOW Foods supplement (anhydrous, C6H5Mg3O7, 90.9% pure, contains citric acid etc), in milligrams'},
     {
-        name=>'mg-mg-glycinate', magnesium_ratio => magnesium_ratio => 24.305/172.42, purity=>1, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+        name=>'mg-mg-glycinate',
+        magnesium_ratio => 24.305/172.42, # 14.1%
+        summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams',
+    },
     {
-        name=>'mg-mg-bisglycinate', magnesium_ratio => 24.305/172.42, purity=>1, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+        name=>'mg-mg-bisglycinate',
+        magnesium_ratio => 24.305/172.42, # 14.1%
+        summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams',
+    },
     {
-        name=>'mg-mg-bisglycinate-nowfoods', magnesium_ratio => 24.305/172.42, purity=>70.94, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+        name=>'mg-mg-bisglycinate-nowfoods',
+        magnesium_ratio => 24.305/172.42, # 14.1%
+        purity => 0.7094, # 14.1% x 0.7094 = 10%
+        summary=>'Magnesium bisglycinate in NOW Foods supplement (C4H8MgN2O4, 70.5% pure, contains citric acid etc), in milligrams',
+    },
     {
-        name=>'mg-mg-l-threonate', magnesium_ratio => 24.305/294.50, purity=>1, C8H14MgO10,
-     {
-         name=>'mg-mg-oxide', magnesium_ratio => ,
+        name=>'mg-mg-ascorbate',
+        magnesium_ratio => 24.305/327.53, # 7.42%
+        summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
+    },
+    {
+        name=>'mg-mg-pidolate',
+        magnesium_ratio => 24.305/327.53, # 7.42%
+        summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
+    },
+    {
+        name=>'mg-mg-l-threonate',
+        magnesium_ratio => 24.305/294.50, # 8.25%
+        summary => 'Magnesium L-threonate (C8H14MgO10), in milligrams',
+    },
+    {
+        name=>'mg-mg-oxide',
+        magnesium_ratio => 24.305 / 40.3044, # 60.3%
+        summary => 'Magnesium oxide (MgO), in milligrams',
+    },
 );
 
 # XXX share with App::VitaminUtils
@@ -71,14 +96,14 @@ our %argspecs_magnesium = (
                     #    Complete::Number::complete_int(word => $stash->{cur_word});
                     #},
                     #' ',
-                    {alternative=>\@magnesium_units},
+                    {alternative=>[map {$_->{name}} @magnesium_forms]},
                 ],
             );
         },
     },
     to_unit => {
         # schema => 'physical::unit', # IU hasn't been added
-        schema => ['str*', in=>\@magnesium_units],
+        schema => ['str*', in=>['mg', map {$_->{name}} @magnesium_forms]],
         pos => 1,
     },
 );
@@ -95,20 +120,30 @@ _
         %argspecs_magnesium,
     },
     examples => [
-        {args=>{quantity=>'mg'}, summary=>'Show all possible conversions'},
-        {args=>{quantity=>'1000 mg-magnesium-l-threonate', to_unit=>'mg-magnesium-elemental'}, summary=>'Find out how many mg of elemental magnesium is in 1000mg of magnesium l-threonate'},
+        {
+            args=>{quantity=>'mg'},
+            summary=>'Show all possible conversions',
+        },
+        {
+            args=>{quantity=>'1000 mg-mg-l-threonate', to_unit=>'mg-mg-elem'},
+            summary=>'Find out how many milligrams of elemental magnesium is in 1000mg of pure magnesium l-threonate (but note that a supplement product might not contain 100%-pure compound)',
+        },
+        {
+            args=>{quantity=>'3000 mg-mg-citrate-ah-nowfoods', to_unit=>'mg-mg-elem'},
+            summary=>'Find out how many milligrams of elemental magnesium is in 3g (1 recommended serving) of NOW Foods magnesium citrate powder (magnesium content is as advertised on the label)',
+        },
+        {
+            args=>{quantity=>'2500 mg-mg-bisglycinate-nowfoods', to_unit=>'mg-mg-elem'},
+            summary=>'Find out how many milligrams of elemental magnesium is in 2.5g (1 recommended serving) of NOW Foods magnesium bisglycinate powder (magnesium content is as advertised on the label)',
+        },
     ],
 };
 sub convert_magnesium_unit {
     require Physics::Unit;
 
     Physics::Unit::InitUnit(
-        ['mg-magnesium-elemental'], '1 mg',
-        ['mg-magnesium-citrate'], '0.1123 mg-magnesium-elemental',
-        ['mg-magnesium-glycinate'], '0.141 mg-magnesium-elemental',
-        ['mg-magnesium-bisglycinate'], '0.141 mg-magnesium-elemental',
-        ['mg-magnesium-l-threonate'], '0.072 mg-magnesium-elemental',
-        ['mg-magnesium-oxide'], '0.603 mg-magnesium-elemental',
+        map {([$_->{name}], sprintf("%.3f mg", $_->{magnesium_ratio}*($_->{purity}//1)))}
+        @magnesium_forms,
     );
 
     my %args = @_;
@@ -121,14 +156,18 @@ sub convert_magnesium_unit {
     } else {
         my @rows;
         for my $u (
-            @magnesium_units,
+            @magnesium_forms,
         ) {
             push @rows, {
-                unit => $u,
-                amount => $quantity->convert($u),
+                unit => $u->{name},
+                amount => $quantity->convert($u->{name}),
             };
         }
-        [200, "OK", \@rows];
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount unit/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef],
+            'table.field_aligns' => [qw/number left/],
+        }];
     }
 }
 
