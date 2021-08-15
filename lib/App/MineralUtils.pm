@@ -159,14 +159,15 @@ sub convert_magnesium_unit {
             @magnesium_forms,
         ) {
             push @rows, {
-                unit => $u->{name},
                 amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef],
-            'table.field_aligns' => [qw/number left/],
+            'table.fields' => [qw/amount unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number left left/],
         }];
     }
 }
