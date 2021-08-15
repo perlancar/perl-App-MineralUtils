@@ -7,7 +7,7 @@
           now-available summary.
 
 
-0.004   2021-08-15  Released-By: PERLANCAR; Urgency: medium
+0.004   2021-08-15  Released-By: PERLANCAR; Urgency: medium; Backward-Incompatible: yes
 
 	- [incompatible change] Rename units to be more concise:
 	  mg-magnesium-citrate -> mg-mg-citrate, and so on.
