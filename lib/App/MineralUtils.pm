@@ -11,14 +11,43 @@ use warnings;
 
 our %SPEC;
 
-my @magnesium_units = (
-    'mg',
-    'mg-magnesium-elemental',
-    'mg-magnesium-citrate',
-    'mg-magnesium-glycinate',
-    'mg-magnesium-bisglycinate',
-    'mg-magnesium-l-threonate',
-    'mg-magnesium-oxide',
+my @magnesium_forms = (
+    {
+        name => 'mg',
+        magnesium_ratio => 1,
+        summary => 'Elemental magnesium, in milligrams',
+    },
+    {
+        name => 'mg-mg-elem',
+        magnesium_ratio => 1,
+        summary => 'Elemental magnesium, in milligrams',
+    },
+    {
+        name => 'mg-mg-citrate',
+        magnesium_ratio => 24.305/214.412, # 11.34%
+        summary => 'Magnesium citrate (C6H6MgO7), in milligrams',
+    },
+    {
+        name => 'mg-mg-citrate-ah',
+        magnesium_ratio => 24.305/457.16*3, # 15.95%
+        purity => 1,
+        summary => 'Magnesium citrate anhydrous (C6H5Mg3O7), in milligrams',
+    },
+    {
+        name => 'mg-mg-citrate-ah-nowfoods',
+        magnesium_ratio => 24.305/457.16*3, # 15.95%
+        purity => 0.9091, # 15.95% x 0.9091 =
+        summary=>'Magnesium citrate in NOW Foods supplement (anhydrous, C6H5Mg3O7, contains citric acid etc, purity 90.9%), in milligrams'},
+    {
+        name=>'mg-mg-glycinate', magnesium_ratio => magnesium_ratio => 24.305/172.42, purity=>1, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+    {
+        name=>'mg-mg-bisglycinate', magnesium_ratio => 24.305/172.42, purity=>1, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+    {
+        name=>'mg-mg-bisglycinate-nowfoods', magnesium_ratio => 24.305/172.42, purity=>70.94, summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams'},
+    {
+        name=>'mg-mg-l-threonate', magnesium_ratio => 24.305/294.50, purity=>1, C8H14MgO10,
+     {
+         name=>'mg-mg-oxide', magnesium_ratio => ,
 );
 
 # XXX share with App::VitaminUtils
@@ -104,7 +133,7 @@ sub convert_magnesium_unit {
 }
 
 1;
-#ABSTRACT: Utilities related to minerals (and mineral supplements)
+#ABSTRACT: Utilities related to mineral supplements
 
 =head1 DESCRIPTION
 
@@ -118,9 +147,5 @@ This distributions provides the following command-line utilities:
 L<App::VitaminUtils>
 
 L<Physics::Unit>
-
-Online vitamin converters:
-L<https://www.rfaregulatoryaffairs.com/vitamin-converter>,
-L<https://avsnutrition.com.au/wp-content/themes/avs-nutrition/vitamin-converter.html>.
 
 =cut
