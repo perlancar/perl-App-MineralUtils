@@ -1,13 +1,13 @@
 package App::MineralUtils;
 
+use 5.010001;
+use strict;
+use warnings;
+
 # AUTHORITY
 # DATE
 # DIST
 # VERSION
-
-use 5.010001;
-use strict;
-use warnings;
 
 our %SPEC;
 
@@ -22,6 +22,7 @@ my @magnesium_forms = (
         magnesium_ratio => 1,
         summary => 'Elemental magnesium, in milligrams',
     },
+
     {
         name => 'mg-mg-citrate',
         magnesium_ratio => 24.305/214.412, # 11.34%
@@ -32,6 +33,7 @@ my @magnesium_forms = (
         magnesium_ratio => 24.305/457.16*3, # 15.95%
         summary => 'Magnesium citrate anhydrous (C6H5Mg3O7), in milligrams',
     },
+
     {
         name => 'mg-mg-citrate-ah-nowfoods',
         magnesium_ratio => 24.305/457.16*3, # 15.95%
@@ -53,25 +55,35 @@ my @magnesium_forms = (
         purity => 0.7094, # 14.1% x 0.7094 = 10%
         summary=>'Magnesium bisglycinate in NOW Foods supplement (C4H8MgN2O4, 70.5% pure, contains citric acid etc), in milligrams',
     },
+
     {
         name=>'mg-mg-ascorbate',
         magnesium_ratio => 24.305/327.53, # 7.42%
         summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
     },
+
     {
         name=>'mg-mg-pidolate',
         magnesium_ratio => 24.305/327.53, # 7.42%
         summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
     },
+
     {
         name=>'mg-mg-l-threonate',
         magnesium_ratio => 24.305/294.50, # 8.25%
         summary => 'Magnesium L-threonate (C8H14MgO10), in milligrams',
     },
+
     {
         name=>'mg-mg-oxide',
         magnesium_ratio => 24.305 / 40.3044, # 60.3%
         summary => 'Magnesium oxide (MgO), in milligrams',
+    },
+
+    {
+        name=>'mg-mg-lactate-dihydrate',
+        magnesium_ratio => 24.305 / 238.48, # 10.2%
+        summary => 'Magnesium lactate dihydrate (C6H14MgO8), in milligrams',
     },
 );
 
