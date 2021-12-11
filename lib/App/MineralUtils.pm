@@ -58,14 +58,14 @@ my @magnesium_forms = (
 
     {
         name=>'mg-mg-ascorbate',
-        magnesium_ratio => 24.305/327.53, # 7.42%
-        summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
+        magnesium_ratio => 24.305/374.54, # 6.49%
+        summary => 'Magnesium ascorbate (C12H14MgO12), in milligrams',
     },
 
     {
         name=>'mg-mg-pidolate',
-        magnesium_ratio => 24.305/327.53, # 7.42%
-        summary => 'Magnesium ascorbate/pidolate (C11H13MgNO9), in milligrams',
+        magnesium_ratio => 24.305/280.517, # 8.66%
+        summary => 'Magnesium pidolate (C10H12MgN2O6), in milligrams',
     },
 
     {
