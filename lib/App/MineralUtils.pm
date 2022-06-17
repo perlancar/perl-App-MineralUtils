@@ -121,6 +121,118 @@ our %argspecs_magnesium = (
     },
 );
 
+our @potassium_forms = (
+    {
+        name => 'mg-k-elem',
+        potassium_ratio => 1,
+        summary => 'Elemental potassium, in milligrams',
+    },
+    {
+        name => 'mg-k-chloride',
+        potassium_ratio => 39.0983/74.5513, # 52.45%
+        summary => 'Potassium chloride (KCl), in milligrams',
+    },
+    {
+        name => 'mg-k-cl',
+        potassium_ratio => 39.0983/74.5513, # 52.45%
+        summary => 'Potassium chloride (KCl), in milligrams',
+    },
+    {
+        name => 'mg-k-citrate',
+        potassium_ratio => 39.0983/306.395, # 12.76%
+        summary => 'Potassium citrate (K3C6H5O7), in milligrams',
+    },
+);
+
+our %argspecs_potassium = (
+    quantity => {
+        # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
+        schema => 'str*',
+        default => '1 mg',
+        req => 0,
+        pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>[map {$_->{name}} @potassium_forms]},
+                ],
+            );
+        },
+    },
+    to_unit => {
+        # schema => 'physical::unit', # IU hasn't been added
+        schema => ['str*', in=>['mg', map {$_->{name}} @potassium_forms]],
+        pos => 1,
+    },
+);
+
+our @sodium_forms = (
+    {
+        name => 'mg-na-elem',
+        sodium_ratio => 1,
+        summary => 'Elemental sodium, in milligrams',
+    },
+    {
+        name => 'mg-na-chloride',
+        sodium_ratio => 22.989769/58.44, # 39.34%
+        summary => 'Sodium chloride (NaCl), in milligrams',
+    },
+    {
+        name => 'mg-na-cl',
+        sodium_ratio => 22.989769/58.44, # 39.34%
+        summary => 'Sodium chloride (NaCl), in milligrams',
+    },
+    {
+        name => 'mg-na-citrate',
+        sodium_ratio => 22.989769/258.06, # 8.909%
+        summary => 'Sodium citrate (Na3C6H5O7), in milligrams',
+    },
+);
+
+our %argspecs_sodium = (
+    quantity => {
+        # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
+        schema => 'str*',
+        default => '1 mg',
+        req => 0,
+        pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>[map {$_->{name}} @sodium_forms]},
+                ],
+            );
+        },
+    },
+    to_unit => {
+        # schema => 'physical::unit', # IU hasn't been added
+        schema => ['str*', in=>['mg', map {$_->{name}} @sodium_forms]],
+        pos => 1,
+    },
+);
+
 $SPEC{convert_magnesium_unit} = {
     v => 1.1,
     summary => 'Convert a magnesium quantity from one unit to another',
@@ -170,6 +282,118 @@ sub convert_magnesium_unit {
         my @rows;
         for my $u (
             @magnesium_forms,
+        ) {
+            push @rows, {
+                amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
+            };
+        }
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number left left/],
+        }];
+    }
+}
+
+$SPEC{convert_potassium_unit} = {
+    v => 1.1,
+    summary => 'Convert a potassium quantity from one unit to another',
+    description => <<'_',
+
+If target unit is not specified, will show all known conversions.
+
+_
+    args => {
+        %argspecs_potassium,
+    },
+    examples => [
+        {
+            args=>{},
+            summary=>'Show all possible conversions',
+        },
+        {
+            args=>{quantity=>'1000 mg-k-elem', to_unit=>'mg-k-cl'},
+            summary=>'How much of potassium chloride provides 1000 mg of elemental potassium?',
+        },
+    ],
+};
+sub convert_potassium_unit {
+    require Physics::Unit;
+
+    Physics::Unit::InitUnit(
+        map {([$_->{name}], sprintf("%.3f mg", $_->{potassium_ratio}*($_->{purity}//1)))}
+        @potassium_forms,
+    );
+
+    my %args = @_;
+    my $quantity = Physics::Unit->new($args{quantity});
+    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
+
+    if ($args{to_unit}) {
+        my $new_amount = $quantity->convert($args{to_unit});
+        return [200, "OK", $new_amount];
+    } else {
+        my @rows;
+        for my $u (
+            @potassium_forms,
+        ) {
+            push @rows, {
+                amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
+            };
+        }
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number left left/],
+        }];
+    }
+}
+
+$SPEC{convert_sodium_unit} = {
+    v => 1.1,
+    summary => 'Convert a sodium quantity from one unit to another',
+    description => <<'_',
+
+If target unit is not specified, will show all known conversions.
+
+_
+    args => {
+        %argspecs_sodium,
+    },
+    examples => [
+        {
+            args=>{},
+            summary=>'Show all possible conversions',
+        },
+        {
+            args=>{quantity=>'1000 mg-na-elem', to_unit=>'mg-na-cl'},
+            summary=>'How much of sodium chloride provides 1000 mg of elemental sodium?',
+        },
+    ],
+};
+sub convert_sodium_unit {
+    require Physics::Unit;
+
+    Physics::Unit::InitUnit(
+        map {([$_->{name}], sprintf("%.3f mg", $_->{sodium_ratio}*($_->{purity}//1)))}
+        @sodium_forms,
+    );
+
+    my %args = @_;
+    my $quantity = Physics::Unit->new($args{quantity});
+    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
+
+    if ($args{to_unit}) {
+        my $new_amount = $quantity->convert($args{to_unit});
+        return [200, "OK", $new_amount];
+    } else {
+        my @rows;
+        for my $u (
+            @sodium_forms,
         ) {
             push @rows, {
                 amount => $quantity->convert($u->{name}),
