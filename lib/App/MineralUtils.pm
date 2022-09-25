@@ -85,6 +85,17 @@ my @magnesium_forms = (
         magnesium_ratio => 24.305 / 238.48, # 10.2%
         summary => 'Magnesium lactate dihydrate (C6H14MgO8), in milligrams',
     },
+
+    {
+        name=>'mg-mg-chloride-ah',
+        magnesium_ratio => 24.305/95.211, # 25.5%
+        summary => 'Magnesium chloride (anhydrous, MgCl2), in milligrams',
+    },
+    {
+        name=>'mg-mg-chloride-hexahydrate',
+        magnesium_ratio => 24.305/203.31, # 12.0%
+        summary => 'Magnesium chloride (hexahydrate, H12Cl2MgO6), in milligrams',
+    },
 );
 
 # XXX share with App::VitaminUtils
@@ -260,6 +271,10 @@ _
         {
             args=>{quantity=>'2500 mg-mg-bisglycinate-nowfoods', to_unit=>'mg-mg-elem'},
             summary=>'Find out how many milligrams of elemental magnesium is in 2.5g (1 recommended serving) of NOW Foods magnesium bisglycinate powder (magnesium content is as advertised on the label)',
+        },
+        {
+            args=>{quantity=>'350 mg-mg-elem'},
+            summary=>'If I want to supplement 350mg elemental magnesium, how much of each compound should we use? (This does not yet take bioavailability into account)',
         },
     ],
 };
