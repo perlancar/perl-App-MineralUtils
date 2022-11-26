@@ -279,8 +279,8 @@ _
             summary=>'If I want to supplement 350mg elemental magnesium, how much of each compound should we use? (This does not yet take bioavailability into account)',
         },
         {
-            args=>{quantity=>'1000 mg-mg-chloride-hexahydrate', to_unit=>'mg-mg-elemental'},
-            summary=>'How many elemental magnesium is in 1000mg (1g) of magnesium chloride powder in capsule form? The chloride is in the common hexahydrate form',
+            args=>{quantity=>'1000 mg-mg-chloride-hexahydrate', to_unit=>'mg-mg-elem'},
+            summary=>'How much elemental magnesium is in 1000mg (1g) of magnesium chloride powder in capsule form? The chloride is in the common hexahydrate form',
         },
     ],
 };
@@ -340,7 +340,7 @@ _
         },
         {
             args=>{quantity=>'1000 mg-k-chloride', to_unit=>'mg-k-chloride'},
-            summary=>'How many elemental potassium is in 1000mg (1g) of potassium chloride powder in capsule form?',
+            summary=>'How much elemental potassium is in 1000mg (1g) of potassium chloride powder in capsule form?',
         },
         {
             args=>{quantity=>'600 mg-k-chloride', to_unit=>'mg-k-elem'},
