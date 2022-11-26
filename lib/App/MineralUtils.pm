@@ -138,6 +138,7 @@ our @potassium_forms = (
         potassium_ratio => 1,
         summary => 'Elemental potassium, in milligrams',
     },
+    # note: unlike magnesium (MgCl hexahydrate), KCl and NaCl does not form hydrates
     {
         name => 'mg-k-chloride',
         potassium_ratio => 39.0983/74.5513, # 52.45%
@@ -194,6 +195,7 @@ our @sodium_forms = (
         sodium_ratio => 1,
         summary => 'Elemental sodium, in milligrams',
     },
+    # note: unlike magnesium (MgCl hexahydrate), KCl and NaCl does not form hydrates
     {
         name => 'mg-na-chloride',
         sodium_ratio => 22.989769/58.44, # 39.34%
@@ -276,6 +278,10 @@ _
             args=>{quantity=>'350 mg-mg-elem'},
             summary=>'If I want to supplement 350mg elemental magnesium, how much of each compound should we use? (This does not yet take bioavailability into account)',
         },
+        {
+            args=>{quantity=>'1000 mg-mg-chloride-hexahydrate', to_unit=>'mg-mg-elemental'},
+            summary=>'How many elemental magnesium is in 1000mg (1g) of magnesium chloride powder in capsule form? The chloride is in the common hexahydrate form',
+        },
     ],
 };
 sub convert_magnesium_unit {
@@ -331,6 +337,14 @@ _
         {
             args=>{quantity=>'1000 mg-k-elem', to_unit=>'mg-k-cl'},
             summary=>'How much of potassium chloride provides 1000 mg of elemental potassium?',
+        },
+        {
+            args=>{quantity=>'1000 mg-k-chloride', to_unit=>'mg-k-chloride'},
+            summary=>'How many elemental potassium is in 1000mg (1g) of potassium chloride powder in capsule form?',
+        },
+        {
+            args=>{quantity=>'4700 mg-k-elem', to_unit=>'mg-k-chloride'},
+            summary=>'Recommended daily intake (DV) of (elemental) potassium for adults and children 4 years or older is 4,700mg according to US FDA; how much is that equivalent to in KCl? Note that it is *NOT* recommended (and most probably dangerous) to take KCl supplement that much as potassium is contained in other sources too',
         },
     ],
 };
