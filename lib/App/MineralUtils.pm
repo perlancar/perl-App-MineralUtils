@@ -343,6 +343,10 @@ _
             summary=>'How many elemental potassium is in 1000mg (1g) of potassium chloride powder in capsule form?',
         },
         {
+            args=>{quantity=>'600 mg-k-chloride', to_unit=>'mg-k-elem'},
+            summary=>'A tablet supplement called KSR contains 600mg of potassium chloride; how much elemental potassium is that?',
+        },
+        {
             args=>{quantity=>'4700 mg-k-elem', to_unit=>'mg-k-chloride'},
             summary=>'Recommended daily intake (DV) of (elemental) potassium for adults and children 4 years or older is 4,700mg according to US FDA; how much is that equivalent to in KCl? Note that it is *NOT* recommended (and most probably dangerous) to take KCl supplement that much as potassium is contained in other sources too',
         },
