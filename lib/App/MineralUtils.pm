@@ -151,7 +151,7 @@ our @potassium_forms = (
     },
     {
         name => 'mg-k-citrate',
-        potassium_ratio => 39.0983/306.395, # 12.76%
+        potassium_ratio => 3*39.0983/306.395, # 12.76%
         summary => 'Potassium citrate (K3C6H5O7), in milligrams',
     },
 );
