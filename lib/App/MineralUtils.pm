@@ -96,6 +96,16 @@ my @magnesium_forms = (
         magnesium_ratio => 24.305/203.31, # 12.0%
         summary => 'Magnesium chloride (hexahydrate, H12Cl2MgO6), in milligrams',
     },
+    {
+        name=>'mg-mg-malate',
+        magnesium_ratio => 24.305/156.376, # 15.5%
+        summary => 'Magnesium malate (C4H4MgO5), in milligrams',
+    },
+    {
+        name=>'mg-mg-malate-trihydrate',
+        magnesium_ratio => 24.305/210.40, # 11.6%
+        summary => 'Magnesium malate (MgC4H4O5.3H2O), in milligrams',
+    },
 );
 
 # XXX share with App::VitaminUtils
