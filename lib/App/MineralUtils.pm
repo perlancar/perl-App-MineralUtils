@@ -256,78 +256,6 @@ our %argspecs_sodium = (
     },
 );
 
-$SPEC{convert_magnesium_unit} = {
-    v => 1.1,
-    summary => 'Convert a magnesium quantity from one unit to another',
-    description => <<'_',
-
-If target unit is not specified, will show all known conversions.
-
-_
-    args => {
-        %argspecs_magnesium,
-    },
-    examples => [
-        {
-            args=>{},
-            summary=>'Show all possible conversions',
-        },
-        {
-            args=>{quantity=>'1000 mg-mg-l-threonate', to_unit=>'mg-mg-elem'},
-            summary=>'Find out how many milligrams of elemental magnesium is in 1000mg of pure magnesium l-threonate (but note that a supplement product might not contain 100%-pure compound)',
-        },
-        {
-            args=>{quantity=>'3000 mg-mg-citrate-ah-nowfoods', to_unit=>'mg-mg-elem'},
-            summary=>'Find out how many milligrams of elemental magnesium is in 3g (1 recommended serving) of NOW Foods magnesium citrate powder (magnesium content is as advertised on the label)',
-        },
-        {
-            args=>{quantity=>'2500 mg-mg-bisglycinate-nowfoods', to_unit=>'mg-mg-elem'},
-            summary=>'Find out how many milligrams of elemental magnesium is in 2.5g (1 recommended serving) of NOW Foods magnesium bisglycinate powder (magnesium content is as advertised on the label)',
-        },
-        {
-            args=>{quantity=>'350 mg-mg-elem'},
-            summary=>'If I want to supplement 350mg elemental magnesium, how much of each compound should we use? (This does not yet take bioavailability into account)',
-        },
-        {
-            args=>{quantity=>'1000 mg-mg-chloride-hexahydrate', to_unit=>'mg-mg-elem'},
-            summary=>'How much elemental magnesium is in 1000mg (1g) of magnesium chloride powder in capsule form? The chloride is in the common hexahydrate form',
-        },
-    ],
-};
-sub convert_magnesium_unit {
-    require Physics::Unit;
-
-    Physics::Unit::InitUnit(
-        map {([$_->{name}], sprintf("%.3f mg", $_->{magnesium_ratio}*($_->{purity}//1)))}
-        @magnesium_forms,
-    );
-
-    my %args = @_;
-    my $quantity = Physics::Unit->new($args{quantity});
-    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
-
-    if ($args{to_unit}) {
-        my $new_amount = $quantity->convert($args{to_unit});
-        return [200, "OK", $new_amount];
-    } else {
-        my @rows;
-        for my $u (
-            @magnesium_forms,
-        ) {
-            push @rows, {
-                amount => $quantity->convert($u->{name}),
-                unit => $u->{name},
-                summary => $u->{summary},
-            };
-        }
-        [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
-        }];
-    }
-}
-
 $SPEC{convert_potassium_unit} = {
     v => 1.1,
     summary => 'Convert a potassium quantity from one unit to another',
@@ -437,6 +365,215 @@ sub convert_sodium_unit {
         my @rows;
         for my $u (
             @sodium_forms,
+        ) {
+            push @rows, {
+                amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
+            };
+        }
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number left left/],
+        }];
+    }
+}
+
+our @iron_forms = (
+    {
+        name => 'mg-fe-elem',
+        iron_ratio => 1,
+        summary => 'Elemental iron, in milligrams',
+    },
+    # note: unlike magnesium (MgCl hexahydrate), KCl and NaCl does not form hydrates
+    {
+        name => 'mg-na-chloride',
+        iron_ratio => 22.989769/58.44, # 39.34%
+        summary => 'Sodium chloride (NaCl), in milligrams',
+    },
+);
+
+our %argspecs_iron = (
+    quantity => {
+        # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
+        schema => 'str*',
+        default => '1 mg',
+        req => 0,
+        pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>[map {$_->{name}} @iron_forms]},
+                ],
+            );
+        },
+    },
+    to_unit => {
+        # schema => 'physical::unit', # IU hasn't been added
+        schema => ['str*', in=>['mg', map {$_->{name}} @iron_forms]],
+        pos => 1,
+    },
+);
+
+$SPEC{convert_iron_unit} = {
+    v => 1.1,
+    summary => 'Convert an iron quantity from one unit to another',
+    description => <<'_',
+
+If target unit is not specified, will show all known conversions.
+
+_
+    args => {
+        %argspecs_iron,
+    },
+    examples => [
+        {
+            args=>{},
+            summary=>'Show all possible conversions',
+        },
+    ],
+};
+sub convert_iron_unit {
+    require Physics::Unit;
+
+    Physics::Unit::InitUnit(
+        map {([$_->{name}], sprintf("%.3f mg", $_->{iron_ratio}*($_->{purity}//1)))}
+        @magnesium_forms,
+    );
+
+    my %args = @_;
+    my $quantity = Physics::Unit->new($args{quantity});
+    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
+
+    if ($args{to_unit}) {
+        my $new_amount = $quantity->convert($args{to_unit});
+        return [200, "OK", $new_amount];
+    } else {
+        my @rows;
+        for my $u (
+            @magnesium_forms,
+        ) {
+            push @rows, {
+                amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
+            };
+        }
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number left left/],
+        }];
+    }
+}
+
+our @calcium_forms = (
+    {
+        name => 'mg-ca-elem',
+        iron_ratio => 1,
+        summary => 'Elemental calcium, in milligrams',
+    },
+    {
+        name => 'mg-ca-carbonate',
+        iron_ratio => 40.078 / 100.0869, # 40.04%
+        summary => 'Calcium carbonate (CaCO3), in milligrams',
+    },
+    {
+        name => 'mg-ca-pidolate',
+        iron_ratio => 40.078 / 296.29, # 13.53%
+        summary => 'Calcium pidolate (C10H12CaN2O6), in milligrams',
+        tags => ['water-soluble'],
+    },
+    {
+        name => 'mg-ca-lactate',
+        iron_ratio => 40.078 / 218.22, # 18.37%
+        summary => 'Calcium lactate (C6H10CaO6), in milligrams',
+        tags => ['water-soluble'],
+    },
+);
+
+our %argspecs_calcium = (
+    quantity => {
+        # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
+        schema => 'str*',
+        default => '1 mg',
+        req => 0,
+        pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>[map {$_->{name}} @calcium_forms]},
+                ],
+            );
+        },
+    },
+    to_unit => {
+        # schema => 'physical::unit', # IU hasn't been added
+        schema => ['str*', in=>['mg', map {$_->{name}} @calcium_forms]],
+        pos => 1,
+    },
+);
+
+$SPEC{convert_calcium_unit} = {
+    v => 1.1,
+    summary => 'Convert an iron quantity from one unit to another',
+    description => <<'_',
+
+If target unit is not specified, will show all known conversions.
+
+_
+    args => {
+        %argspecs_iron,
+    },
+    examples => [
+        {
+            args=>{},
+            summary=>'Show all possible conversions',
+        },
+    ],
+};
+sub convert_calcium_unit {
+    require Physics::Unit;
+
+    Physics::Unit::InitUnit(
+        map {([$_->{name}], sprintf("%.3f mg", $_->{iron_ratio}*($_->{purity}//1)))}
+        @magnesium_forms,
+    );
+
+    my %args = @_;
+    my $quantity = Physics::Unit->new($args{quantity});
+    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
+
+    if ($args{to_unit}) {
+        my $new_amount = $quantity->convert($args{to_unit});
+        return [200, "OK", $new_amount];
+    } else {
+        my @rows;
+        for my $u (
+            @magnesium_forms,
         ) {
             push @rows, {
                 amount => $quantity->convert($u->{name}),
