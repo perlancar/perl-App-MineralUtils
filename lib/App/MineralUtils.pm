@@ -588,11 +588,10 @@ our @iron_forms = (
         iron_ratio => 1,
         summary => 'Elemental iron, in milligrams',
     },
-    # note: unlike magnesium (MgCl hexahydrate), KCl and NaCl does not form hydrates
     {
-        name => 'mg-na-chloride',
-        iron_ratio => 22.989769/58.44, # 39.34%
-        summary => 'Sodium chloride (NaCl), in milligrams',
+        name => 'mg-ferrous-sulfate-heptahydrate', # the natural hydrate form, loses water to tetrahydrate at 57C and monohydrate at 65C
+        iron_ratio => 55.845/278.02, # 20.09%
+        summary => 'Ferrous sulphate heptahydrate (FeSO4.7H2O), in milligrams',
     },
 );
 
@@ -652,7 +651,7 @@ sub convert_iron_unit {
 
     Physics::Unit::InitUnit(
         map {([$_->{name}], sprintf("%.3f mg", $_->{iron_ratio}*($_->{purity}//1)))}
-        @magnesium_forms,
+        @iron_forms,
     );
 
     my %args = @_;
@@ -665,7 +664,7 @@ sub convert_iron_unit {
     } else {
         my @rows;
         for my $u (
-            @magnesium_forms,
+            @iron_forms,
         ) {
             push @rows, {
                 amount => $quantity->convert($u->{name}),
@@ -764,7 +763,7 @@ sub convert_calcium_unit {
 
     Physics::Unit::InitUnit(
         map {([$_->{name}], sprintf("%.3f mg", $_->{iron_ratio}*($_->{purity}//1)))}
-        @magnesium_forms,
+        @calcium_forms,
     );
 
     my %args = @_;
@@ -777,7 +776,7 @@ sub convert_calcium_unit {
     } else {
         my @rows;
         for my $u (
-            @magnesium_forms,
+            @calcium_forms,
         ) {
             push @rows, {
                 amount => $quantity->convert($u->{name}),
@@ -793,7 +792,7 @@ sub convert_calcium_unit {
     }
 }
 
-# --- zinc
+# --- TODO: zinc
 
 1;
 #ABSTRACT: Utilities related to mineral supplements
