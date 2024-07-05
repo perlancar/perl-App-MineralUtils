@@ -55,22 +55,22 @@ my @magnesium_forms = (
         # source: pubchem, jungbunzlauer
         name => 'mg-mg-citrate-nonahydrate',
         magnesium_ratio => 24.305/613.25, # 11.89%
-        summary => 'Magnesium citrate nonahydrate ((C6H5O7)2Mg3 · 9H2O, C12H28Mg3O23), in milligrams',
+        summary => 'Magnesium citrate nonahydrate ((C6H5O7)2Mg3 · 9H2O, C12H28Mg3O23) [most common hydrate form of Mg-citrate at room temp], in milligrams',
     },
 
     # ---- glycinate/bisglycinate
     {
         # source: pubchem
-        name=>'mg-mg-glycinate',
+        name=>'mg-mg-glycinate-anhydrous',
         magnesium_ratio => 24.305/172.42, # 14.10%
-        summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams',
+        summary=>'Magnesium glycinate/bisglycinate anhydrous (C4H8MgN2O4) [most common hydrate form of Mg-glycinate], in milligrams',
     },
     {
         # alias for: mg-mg-glycinate
         # source: pubchem
-        name=>'mg-mg-bisglycinate',
+        name=>'mg-mg-bisglycinate-anhydrous',
         magnesium_ratio => 24.305/172.42, # 14.1%
-        summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4), in milligrams',
+        summary=>'Magnesium glycinate/bisglycinate (C4H8MgN2O4) [most common hydrate form of Mg-glycinate], in milligrams',
     },
     {
         # source: nowfoods
@@ -81,11 +81,18 @@ my @magnesium_forms = (
     },
 
     # ---- ascorbate
+    # TODO
+    #{
+    #    # source: pubchem
+    #    name=>'mg-mg-ascorbate-anhydrous',
+    #    magnesium_ratio => 24.305/, # %
+    #    summary => 'Magnesium ascorbate anhydrous (C12H14MgO12) [this and dihydrate are the most common hydrate form of Mg-ascorbate at room temp], in milligrams',
+    #},
     {
         # source: pubchem
-        name=>'mg-mg-ascorbate',
+        name=>'mg-mg-ascorbate-dihydrate',
         magnesium_ratio => 24.305/374.54, # 6.49%
-        summary => 'Magnesium ascorbate (C12H14MgO12), in milligrams',
+        summary => 'Magnesium ascorbate hydrate (C12H14MgO12) [anhydrous and dihydrate are the most common hydrate forms of Mg-ascorbate at room temp], in milligrams',
     },
 
     # ---- pidolate
@@ -106,9 +113,9 @@ my @magnesium_forms = (
 
     # ---- oxide
     {
-        name=>'mg-mg-oxide',
+        name=>'mg-mg-oxide-anhydrous',
         magnesium_ratio => 24.305 / 40.3044, # 60.3%
-        summary => 'Magnesium oxide (MgO), in milligrams',
+        summary => 'Magnesium oxide anhydrous (MgO) [most common hydrate form of MgO at room temp], in milligrams',
     },
 
     {
@@ -323,17 +330,19 @@ our @potassium_forms = (
         summary => 'Elemental potassium, in milligrams',
     },
 
+    # chloride
     {
         name => 'mg-k-chloride-anhydrous',
         potassium_ratio => 39.0983/74.5513, # 52.45%
-        summary => 'Potassium chloride (KCl), in milligrams',
+        summary => 'Potassium chloride (KCl) anhydrous [most common hydrate form of KCl at room temp], in milligrams',
     },
     {
         name => 'mg-k-chloride-dihydrate',
         potassium_ratio => 39.0983/110.58, # 35.36%
-        summary => 'Potassium chloride dihydrate (KCl.2H2O), in milligrams',
+        summary => 'Potassium chloride dihydrate (KCl.2H2O) [unstable at room temp], in milligrams',
     },
 
+    # citrate
     {
         name => 'mg-k-citrate-anhydrous',
         potassium_ratio => 3*39.0983/306.395, # 38.28%
@@ -342,20 +351,38 @@ our @potassium_forms = (
     {
         name => 'mg-k-citrate-monohydrate',
         potassium_ratio => 3*39.0983/324.41, # 36.16%
-        summary => 'Tripotassium citrate anhydrous (K3C6H5O7), in milligrams',
+        summary => 'Tripotassium citrate monohydrate (K3C6H5O7.H2O) [most common hydrate form of K-citrate at room temp], in milligrams',
     },
 
+    # carbonate
+    {
+        name => 'mg-k-carbonate-anhydrous',
+        potassium_ratio => 2*39.0983/138.205, # 56.58%
+        summary => 'Potassium carbonate anhydrous (K2CO3), in milligrams',
+    },
+    {
+        name => 'mg-k-carbonate-dihydrate',
+        potassium_ratio => 2*39.0983/174.24, # 44.88%
+        summary => 'Potassium carbonate dihydrate (K2CO3.2H2O) [most common hydrate form of K-carbonate at room temp], in milligrams',
+    },
+
+    # bicarbonate
     {
         name => 'mg-k-bicarbonate-anhydrous',
         potassium_ratio => 39.0983/100.115, # 39.05%
-        summary => 'Potassium bicarbonate anhydrous (KHCO3), in milligrams',
+        summary => 'Potassium bicarbonate anhydrous (KHCO3) [most common hydrate form of K-bicarbonate at room temp], in milligrams',
     },
-    # XXX potassium bicarbonate mohohydrate
 
+    # acetate
     {
         name => 'mg-k-acetate-anhydrous',
         potassium_ratio => 39.0983/98.14, # 39.84%
         summary => 'Potassium acetate anhydrous (C2H3O2K), in milligrams',
+    },
+    {
+        name => 'mg-k-acetate-monohydrate',
+        potassium_ratio => 39.0983/116.16, # 33.66%
+        summary => 'Potassium acetate monohydrate (C2H9KO5) [most common hydrate form of K-acetate at room temp], in milligrams',
     },
     {
         name => 'mg-k-acetate-trihydrate',
@@ -414,19 +441,19 @@ _
             summary=>'Show all possible conversions',
         },
         {
-            args=>{quantity=>'1000 mg-k-elem', to_unit=>'mg-k-cl'},
+            args=>{quantity=>'1000 mg-k-elem', to_unit=>'mg-k-chloride-anhydrous'},
             summary=>'How much of potassium chloride provides 1000 mg of elemental potassium?',
         },
         {
-            args=>{quantity=>'1000 mg-k-chloride', to_unit=>'mg-k-chloride'},
+            args=>{quantity=>'1000 mg-k-chloride-anhydrous', to_unit=>'mg-k-elem'},
             summary=>'How much elemental potassium is in 1000mg (1g) of potassium chloride powder in capsule form?',
         },
         {
-            args=>{quantity=>'600 mg-k-chloride', to_unit=>'mg-k-elem'},
+            args=>{quantity=>'600 mg-k-chloride-anhydrous', to_unit=>'mg-k-elem'},
             summary=>'A tablet supplement called KSR contains 600mg of potassium chloride; how much elemental potassium is that?',
         },
         {
-            args=>{quantity=>'4700 mg-k-elem', to_unit=>'mg-k-chloride'},
+            args=>{quantity=>'4700 mg-k-elem', to_unit=>'mg-k-chloride-anhydrous'},
             summary=>'Recommended daily intake (DV) of (elemental) potassium for adults and children 4 years or older is 4,700mg according to US FDA; how much is that equivalent to in KCl? Note that it is *NOT* recommended (and most probably dangerous) to take KCl supplement that much as potassium is contained in other sources too',
         },
     ],
