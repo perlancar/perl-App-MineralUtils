@@ -282,7 +282,7 @@ MARKDOWN
             summary=>'Show all possible conversions',
         },
         {
-            args=>{quantity=>'350 mg-mg-oxide', to_unit=>'mg-mg-elem'},
+            args=>{quantity=>'350 mg-mg-oxide-anhydrous', to_unit=>'mg-mg-elem'},
             summary=>'How much of magnesium oxide provides 350 mg of elemental magnesium?',
         },
     ],
