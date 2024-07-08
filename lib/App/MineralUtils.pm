@@ -732,6 +732,16 @@ our @calcium_forms = (
         summary => 'Calcium lactate (C6H10CaO6), in milligrams',
         tags => ['water-soluble'],
     },
+    { # source: pubchem
+        name => 'mg-ca-citrate-anhydrous',
+        iron_ratio => 40.078 / 498.4, # 8.04%
+        summary => 'Calcium citrate anhydrous (C12H10Ca3O14), in milligrams',
+    },
+    { # source: pubchem
+        name => 'mg-ca-citrate-tetrahydrate',
+        iron_ratio => 40.078 / 570.5, # 7.03%
+        summary => 'Calcium citrate tetrahydrate (C12H18Ca3O18) [most common hydrate form of Ca-citrate], in milligrams',
+    },
 );
 
 our %argspecs_calcium = (
