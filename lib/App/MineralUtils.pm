@@ -753,6 +753,11 @@ our @calcium_forms = (
         calcium_ratio => 40.078 / 426.34, # 9.40%
         summary => 'Calcium ascorbate dihydrate (C12H18CaO14), in milligrams',
     },
+    { # source: nih
+        name => 'mg-ca-gluconate',
+        calcium_ratio => 40.078 / 430.37, # 9.31%
+        summary => 'Calcium gluconate (C12H22CaO14), in milligrams',
+    },
 );
 
 our %argspecs_calcium = (
