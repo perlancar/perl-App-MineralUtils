@@ -718,35 +718,40 @@ sub convert_iron_unit {
 our @calcium_forms = (
     {
         name => 'mg-ca-elem',
-        iron_ratio => 1,
+        calcium_ratio => 1,
         summary => 'Elemental calcium, in milligrams',
     },
     {
         name => 'mg-ca-carbonate',
-        iron_ratio => 40.078 / 100.0869, # 40.04%
+        calcium_ratio => 40.078 / 100.0869, # 40.04%
         summary => 'Calcium carbonate (CaCO3), in milligrams',
     },
     {
         name => 'mg-ca-pidolate',
-        iron_ratio => 40.078 / 296.29, # 13.53%
+        calcium_ratio => 40.078 / 296.29, # 13.53%
         summary => 'Calcium pidolate (C10H12CaN2O6), in milligrams',
         tags => ['water-soluble'],
     },
     {
         name => 'mg-ca-lactate',
-        iron_ratio => 40.078 / 218.22, # 18.37%
+        calcium_ratio => 40.078 / 218.22, # 18.37%
         summary => 'Calcium lactate (C6H10CaO6), in milligrams',
         tags => ['water-soluble'],
     },
     { # source: pubchem
         name => 'mg-ca-citrate-anhydrous',
-        iron_ratio => 40.078 / 498.4, # 8.04%
+        calcium_ratio => 40.078 / 498.4, # 8.04%
         summary => 'Calcium citrate anhydrous (C12H10Ca3O14), in milligrams',
     },
     { # source: pubchem
         name => 'mg-ca-citrate-tetrahydrate',
-        iron_ratio => 40.078 / 570.5, # 7.03%
+        calcium_ratio => 40.078 / 570.5, # 7.03%
         summary => 'Calcium citrate tetrahydrate (C12H18Ca3O18) [most common hydrate form of Ca-citrate], in milligrams',
+    },
+    { # source: nih
+        name => 'mg-ca-ascorbate-dihydrate',
+        calcium_ratio => 40.078 / 426.34, # 9.40%
+        summary => 'Calcium ascorbate dihydrate (C12H18CaO14), in milligrams',
     },
 );
 
@@ -805,7 +810,7 @@ sub convert_calcium_unit {
     require Physics::Unit;
 
     Physics::Unit::InitUnit(
-        map {([$_->{name}], sprintf("%.3f mg", $_->{iron_ratio}*($_->{purity}//1)))}
+        map {([$_->{name}], sprintf("%.3f mg", $_->{calcium_ratio}*($_->{purity}//1)))}
         @calcium_forms,
     );
 
