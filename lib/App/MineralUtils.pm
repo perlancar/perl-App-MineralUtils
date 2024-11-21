@@ -740,12 +740,12 @@ our @calcium_forms = (
     },
     { # source: pubchem
         name => 'mg-ca-citrate-anhydrous',
-        calcium_ratio => 40.078 / 498.4, # 8.04%
+        calcium_ratio => 3*40.078 / 498.4, # 24.12%
         summary => 'Calcium citrate anhydrous (C12H10Ca3O14), in milligrams',
     },
     { # source: pubchem
         name => 'mg-ca-citrate-tetrahydrate',
-        calcium_ratio => 40.078 / 570.5, # 7.03%
+        calcium_ratio => 3*40.078 / 570.5, # 21.08%
         summary => 'Calcium citrate tetrahydrate (C12H18Ca3O18) [most common hydrate form of Ca-citrate], in milligrams',
     },
     { # source: nih
@@ -757,6 +757,11 @@ our @calcium_forms = (
         name => 'mg-ca-gluconate',
         calcium_ratio => 40.078 / 430.37, # 9.31%
         summary => 'Calcium gluconate (C12H22CaO14), in milligrams',
+    },
+    { # source: nih
+        name => 'mg-ca-glycerophosphate',
+        calcium_ratio => 40.078 / 210.14, # 19.07%
+        summary => 'Calcium glycerophosphate (C3H7CaO6P), in milligrams',
     },
 );
 
