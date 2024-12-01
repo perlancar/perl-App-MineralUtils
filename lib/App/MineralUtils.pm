@@ -291,6 +291,11 @@ MARKDOWN
             args=>{quantity=>'350 mg-mg-oxide-anhydrous', to_unit=>'mg-mg-elem'},
             summary=>'How much of magnesium oxide provides 350 mg of elemental magnesium?',
         },
+        {
+            src_plang => 'bash',
+            src=>'[[prog]] | td sort -- -pct_mg',
+            summary=>'Sort by highest magnesium content',
+        },
     ],
 };
 sub convert_magnesium_unit {
