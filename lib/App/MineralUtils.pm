@@ -317,12 +317,13 @@ sub convert_magnesium_unit {
                 amount => $quantity->convert($u->{name}),
                 unit => $u->{name},
                 summary => $u->{summary},
+                pct_mg => $u->{magnesium_ratio} * 100,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
+            'table.fields' => [qw/amount pct_mg unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
@@ -488,12 +489,13 @@ sub convert_potassium_unit {
                 amount => $quantity->convert($u->{name}),
                 unit => $u->{name},
                 summary => $u->{summary},
+                pct_k => $u->{potassium_ratio} * 100,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
+            'table.fields' => [qw/amount pct_k unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
@@ -603,12 +605,13 @@ sub convert_sodium_unit {
                 amount => $quantity->convert($u->{name}),
                 unit => $u->{name},
                 summary => $u->{summary},
+                pct_na => $u->{sodium_ratio} * 100,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
+            'table.fields' => [qw/amount pct_na unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
@@ -703,12 +706,13 @@ sub convert_iron_unit {
                 amount => $quantity->convert($u->{name}),
                 unit => $u->{name},
                 summary => $u->{summary},
+                pct_fe => $u->{iron_ratio} * 100,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
+            'table.fields' => [qw/amount pct_fe unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
@@ -840,12 +844,13 @@ sub convert_calcium_unit {
                 amount => $quantity->convert($u->{name}),
                 unit => $u->{name},
                 summary => $u->{summary},
+                pct_ca => $u->{calcium_ratio} * 100,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], undef, undef],
-            'table.field_aligns' => [qw/number left left/],
+            'table.fields' => [qw/amount pct_ca unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
