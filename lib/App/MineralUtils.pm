@@ -34,7 +34,7 @@ my @magnesium_forms = (
     },
     {
         # source: pubchem
-        name => 'mg-magnesium-citrate-dibasic',
+        name => 'mg-mg-citrate-dibasic',
         magnesium_ratio => 24.305/214.41, # 11.34%
         summary => 'Magnesium citrate dibasic (C6H6MgO7), in milligrams',
     },
@@ -231,7 +231,7 @@ my @magnesium_forms = (
     # XXX magnesium phosphate?
 
     {
-        name=>'mg-mg-orthophosphate-anhydrous',
+        name=>'mg-trimagnesium-orthophosphate-anhydrous',
         magnesium_ratio => 3*24.305/262.8577, # 27.74%
         summary => 'Trimagnesium orthophosphate (Mg3O8P2), in milligrams',
     },
