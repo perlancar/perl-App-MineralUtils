@@ -634,6 +634,16 @@ our @iron_forms = (
         iron_ratio => 55.845/278.02, # 20.09%
         summary => 'Ferrous sulphate heptahydrate (FeSO4.7H2O), in milligrams',
     },
+    {
+        name => 'mg-lipofer', #
+        iron_ratio => 8/100, # 8%, 7.8-9% according to spec
+        summary => 'Lipofer (micronized, microencapsulated, water-soluble form of iron pyrophosphate), in milligrams',
+    },
+    {
+        name => 'mg-lipofer', #
+        iron_ratio => 8/100, # 8%, 7.8-9% according to spec
+        summary => 'Lipofer (micronized, microencapsulated form of iron pyrophosphate), in milligrams',
+    },
 );
 
 our %argspecs_iron = (
