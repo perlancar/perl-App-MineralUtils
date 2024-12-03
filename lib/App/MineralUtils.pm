@@ -640,9 +640,9 @@ our @iron_forms = (
         summary => 'Lipofer (micronized, microencapsulated, water-soluble form of iron pyrophosphate), in milligrams',
     },
     {
-        name => 'mg-lipofer', #
-        iron_ratio => 8/100, # 8%, 7.8-9% according to spec
-        summary => 'Lipofer (micronized, microencapsulated form of iron pyrophosphate), in milligrams',
+        name => 'mg-sunactive-fe', #
+        iron_ratio => 8/100, # >8% according to spec
+        summary => 'SunActive Fe (micronized, microencapsulated form of iron pyrophosphate), in milligrams',
     },
 );
 
