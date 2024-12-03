@@ -117,6 +117,11 @@ my @magnesium_forms = (
         magnesium_ratio => 24.305 / 40.3044, # 60.3%
         summary => 'Magnesium oxide anhydrous (MgO) [most common hydrate form of MgO at room temp], in milligrams',
     },
+    {
+        name=>'mg-magshape',
+        magnesium_ratio => 0.32, # 30-36.6% from COA
+        summary => 'MAGSHAPE (microencapsulated form of magnesium oxide), in milligrams',
+    },
 
     # ---- others
     {
@@ -240,12 +245,6 @@ my @magnesium_forms = (
         name=>'mg-mg-taurate',
         magnesium_ratio => 24.305/272.6, # 8.92%
         summary => 'Magnesium taurate (C4H12MgN2O6S2), in milligrams',
-    },
-
-    {
-        name=>'mg-magshape',
-        magnesium_ratio => 0.32, # 30-36.6% from COA
-        summary => 'MAGSHAPE (microencapsulated form of magnesium developed for use in dietary supplements and functional foods, containing MgO, modified preserved maize starch, sunflower lecithin), in milligrams',
     },
 );
 
