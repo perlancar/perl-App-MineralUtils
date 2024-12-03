@@ -118,6 +118,7 @@ my @magnesium_forms = (
         summary => 'Magnesium oxide anhydrous (MgO) [most common hydrate form of MgO at room temp], in milligrams',
     },
 
+    # ---- others
     {
         name=>'mg-mg-lactate-anhydrous',
         magnesium_ratio => 24.305 / 202.45, # 12.01%
@@ -223,7 +224,17 @@ my @magnesium_forms = (
     },
     # XXX Magnesium glycerophosphate dihydrate?
     # XXX magnesium phosphate?
-    # XXX magnesium phosphate trihydrate?
+
+    {
+        name=>'mg-mg-orthophosphate-anhydrous',
+        magnesium_ratio => 3*24.305/262.8577, # 27.74%
+        summary => 'Trimagnesium orthophosphate (Mg3O8P2), in milligrams',
+    },
+    {
+        name=>'mg-sunactive-mg',
+        magnesium_ratio => 0.12, # >12% according to spec
+        summary => 'SunActive Magnesium (a micronized, microencapsulated form of trimagnesium orthophosphate), in milligrams',
+    },
 
     {
         name=>'mg-mg-taurate',
