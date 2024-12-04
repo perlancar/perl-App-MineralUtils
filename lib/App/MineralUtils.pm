@@ -639,10 +639,19 @@ our @iron_forms = (
         iron_ratio => 1,
         summary => 'Elemental iron, in milligrams',
     },
+
+    # sulfate
     {
         name => 'mg-ferrous-sulfate-heptahydrate', # the natural hydrate form, loses water to tetrahydrate at 57C and monohydrate at 65C
         iron_ratio => 55.845/278.02, # 20.09%
         summary => 'Ferrous sulphate heptahydrate (FeSO4.7H2O), in milligrams',
+    },
+
+    # pyrophosphate
+    {
+        name => 'mg-fe-iii-pyrophosphate', #
+        iron_ratio => 4*55.845/745.21, # 29.98%
+        summary => 'Iron (III) pyrophosphate (Fe4O21P6), in milligrams',
     },
     {
         name => 'mg-lipofer', #
@@ -653,6 +662,25 @@ our @iron_forms = (
         name => 'mg-sunactive-fe', #
         iron_ratio => 8/100, # >8% according to spec
         summary => 'SunActive Fe (micronized, microencapsulated form of iron pyrophosphate), in milligrams',
+    },
+
+    # glycinate
+    {
+        name => 'mg-fe-glycinate', #
+        iron_ratio => 55.845/203.96, # 27.38%
+        summary => 'Iron glycinate a.k.a. ferrous bisglycinate (C4H8FeN2O4), in milligrams',
+    },
+    {
+        name => 'mg-fe-bisglycinate', #
+        iron_ratio => 55.845/203.96, # 27.38%
+        summary => 'Iron glycinate a.k.a. ferrous bisglycinate (C4H8FeN2O4), in milligrams',
+    },
+
+    # gluconate
+    {
+        name => 'mg-fe-gluconate', #
+        iron_ratio => 55.845/448.156, # 12.46%
+        summary => 'Iron (II) gluconate (C12H22FeO14), in milligrams',
     },
 );
 
