@@ -908,7 +908,136 @@ sub convert_calcium_unit {
     }
 }
 
-# --- TODO: zinc
+# --- zinc
+
+
+our @zinc_forms = (
+    # source: chatgpt
+    {
+        name => 'mg-zn-elem',
+        zinc_ratio => 1,
+        summary => 'Elemental zinc, in milligrams',
+    },
+    # also has anhydrous, dihydrate, trihydrate
+    {
+        name => 'mg-zn-lactate-monohydrate',
+        zinc_ratio => 65.38 / 243.5, # 26.9%
+        summary => 'Zinc lactate monohydrate (Zn(C3H5O3)2.H2O), in milligrams',
+    },
+    {
+        name => 'mg-zn-picolinate',
+        zinc_ratio => 65.38 / 298.6, # 21.9%
+        summary => 'Zinc picolinate (Zn(C6H4NO2)2), in milligrams',
+    },
+    # also has monohydrate, dihydrate
+    {
+        name => 'mg-zn-gluconate-anhydrous',
+        zinc_ratio => 65.38 / 455.7, # 14.4%
+        summary => 'Zinc gluconate anhydrous (Zn(C6H11O7)2), in milligrams',
+    },
+    {
+        name => 'mg-zn-citrate',
+        zinc_ratio => 3*65.38 / 574.3, # 31.1%
+        summary => 'Zinc citrate (Zn3(C6H5O7)2, trizinc dicitrate), in milligrams',
+    },
+    {
+        name => 'mg-zn-oxide',
+        zinc_ratio => 65.38 / 81.38, # 80.3%
+        summary => 'Zinc oxide (ZnO), in milligrams',
+    },
+    # there are also monohydrate, heptahydrate
+    {
+        name => 'mg-zn-sulfate-anhydrous',
+        zinc_ratio =>  65.38 / 161.5, # 36.6%
+        summary => 'Zinc sulfate (ZnSO4), in milligrams',
+    },
+);
+
+our %argspecs_zinc = (
+    quantity => {
+        # schema => 'physical::mass*', # XXX Perinci::Sub::GetArgs::Argv is not smart enough to coerce from string
+        schema => 'str*',
+        default => '1 mg',
+        req => 0,
+        pos => 0,
+        completion => sub {
+            require Complete::Sequence;
+
+            my %args = @_;
+            Complete::Sequence::complete_sequence(
+                word => $args{word},
+                sequence => [
+                    # TEMP
+                    #sub {
+                    #    require Complete::Number;
+                    #    my $stash = shift;
+                    #    Complete::Number::complete_int(word => $stash->{cur_word});
+                    #},
+                    #' ',
+                    {alternative=>[map {$_->{name}} @zinc_forms]},
+                ],
+            );
+        },
+    },
+    to_unit => {
+        # schema => 'physical::unit', # IU hasn't been added
+        schema => ['str*', in=>['mg', map {$_->{name}} @zinc_forms]],
+        pos => 1,
+    },
+);
+
+$SPEC{convert_zinc_unit} = {
+    v => 1.1,
+    summary => 'Convert a zinc quantity from one unit to another',
+    description => <<'MARKDOWN',
+
+If target unit is not specified, will show all known conversions.
+
+MARKDOWN
+    args => {
+        %argspecs_zinc,
+    },
+    examples => [
+        {
+            args=>{},
+            summary=>'Show all possible conversions',
+        },
+    ],
+};
+sub convert_zinc_unit {
+    require Physics::Unit;
+
+    Physics::Unit::InitUnit(
+        map {([$_->{name}], sprintf("%.3f mg", $_->{zinc_ratio}*($_->{purity}//1)))}
+        @zinc_forms,
+    );
+
+    my %args = @_;
+    my $quantity = Physics::Unit->new($args{quantity});
+    return [412, "Must be a Mass quantity"] unless $quantity->type eq 'Mass';
+
+    if ($args{to_unit}) {
+        my $new_amount = $quantity->convert($args{to_unit});
+        return [200, "OK", $new_amount];
+    } else {
+        my @rows;
+        for my $u (
+            @zinc_forms,
+        ) {
+            push @rows, {
+                amount => $quantity->convert($u->{name}),
+                unit => $u->{name},
+                summary => $u->{summary},
+                pct_zn => $u->{zinc_ratio} * 100,
+            };
+        }
+        [200, "OK", \@rows, {
+            'table.fields' => [qw/amount pct_zn unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.field_aligns' => [qw/number number left left/],
+        }];
+    }
+}
 
 1;
 #ABSTRACT: Utilities related to mineral supplements
