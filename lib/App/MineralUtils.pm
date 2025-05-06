@@ -12,7 +12,8 @@ use warnings;
 
 our %SPEC;
 
-# -- magnesium
+# BEGIN magnesium lexical
+{
 
 # good sources: pubchem
 # not-so-good sources: american elements
@@ -308,6 +309,7 @@ MARKDOWN
         },
     ],
 };
+
 sub convert_magnesium_unit {
     require Physics::Unit;
 
@@ -333,19 +335,25 @@ sub convert_magnesium_unit {
                 unit => $u->{name},
                 summary => $u->{summary},
                 pct_mg => $u->{magnesium_ratio} * 100,
+                purity => $u->{purity} // 1,
             };
         }
         [200, "OK", \@rows, {
-            'table.fields' => [qw/amount pct_mg unit summary/],
-            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}], [number=>{thousands_sep=>'', precision=>3}], undef, undef],
+            'table.fields' => [qw/amount pct_mg purity unit summary/],
+            'table.field_formats'=>[[number=>{thousands_sep=>'', precision=>3}],
+                                    [number=>{thousands_sep=>'', precision=>3}],
+                                    [number=>{thousands_sep=>'', precision=>3}], undef, undef],
             'table.field_aligns' => [qw/number number left left/],
         }];
     }
 }
 
-# --- potassium
+} # END magnesium lexical
 
-our @potassium_forms = (
+# BEGIN potassium lexical
+{
+
+my @potassium_forms = (
     {
         name => 'mg-k-elem',
         potassium_ratio => 1,
@@ -449,11 +457,11 @@ our %argspecs_potassium = (
 $SPEC{convert_potassium_unit} = {
     v => 1.1,
     summary => 'Convert a potassium quantity from one unit to another',
-    description => <<'_',
+    description => <<'MARKDOWN',
 
 If target unit is not specified, will show all known conversions.
 
-_
+MARKDOWN
     args => {
         %argspecs_potassium,
     },
@@ -515,9 +523,11 @@ sub convert_potassium_unit {
     }
 }
 
+} # END potassium lexical
+
 # --- sodium
 
-our @sodium_forms = (
+my @sodium_forms = (
     {
         name => 'mg-na-elem',
         sodium_ratio => 1,
